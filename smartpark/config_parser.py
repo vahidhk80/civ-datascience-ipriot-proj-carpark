@@ -34,8 +34,15 @@ Finally, you can use `yaml` if you prefer.
 """
 
 
-
+import json
 def parse_config(config_file: str) -> dict:
     """Parse the config file and return the values as a dictionary"""
     # TODO: get the configuration from a parsed file
-    return {'location': 'TBD', 'total_spaces': 0, 'log_file':'carpark_log.txt' }
+    with open(config_file, "r") as f:
+        data = json.load(f)
+    location = data["CarParks"][0]["location"]
+    total_spaces = data["CarParks"][0]["total-spaces"]
+    with open("carpark_log.txt", "w") as log:
+        for key, value in data["CarParks"][0].items():
+            log.write(f"{key}= {value}\n")
+    return {'location': location, 'total_spaces': total_spaces, 'log_file':'carpark_log.txt' }

@@ -1,0 +1,17 @@
+name= raf-park-international
+total-spaces= 130
+total-cars= 0
+location= moondalup
+broker= localhost
+port= 1883
+Sensors= [{'name': 'sensor1', 'type': 'entry'}, {'name': 'sensor2', 'type': 'exit'}]
+Displays= [{'name': 'display1'}]
+Plate= asde,
+Entry_time= 2025-11-20 14:48:03,
+Exit_time= None
+Plate= asde,
+Entry_time= 2025-11-20 14:48:03,
+Exit_time= None
+Plate= asde,
+Entry_time= 2025-11-20 14:48:04,
+Exit_time= None
