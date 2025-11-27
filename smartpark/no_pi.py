@@ -78,13 +78,13 @@ class CarParkDisplay:
     fields = ['Available bays', 'Temperature', 'At']
 
     def __init__(self,root):
+        self._provider=None
         self.window = WindowedDisplay(root,
             'Moondalup', CarParkDisplay.fields)
         updater = threading.Thread(target=self.check_updates)
         updater.daemon = True
         updater.start()
         self.window.show()
-        self._provider=None
     
     @property
     def data_provider(self):
@@ -95,18 +95,25 @@ class CarParkDisplay:
             self._provider = provider
 
     def update_display(self):
-        field_values = dict(zip(CarParkDisplay.fields, [
-            f'{self._provider.available_spaces:03d}',
-            f'{self._provider.temperature:02d}℃',
-            time.strftime("%H:%M:%S",self._provider.current_time)
-        ]))
+        if self._provider.available_spaces != 0:
+            field_values = dict(zip(CarParkDisplay.fields, [
+                f'{self._provider.available_spaces:03d}',
+                f'{self._provider.temperature:02d}℃',
+                time.strftime("%H:%M:%S",self._provider.current_time)
+            ]))
+        else:
+            field_values = dict(zip(CarParkDisplay.fields, [
+                'Full',
+                f'{self._provider.temperature:02d}℃',
+                time.strftime("%H:%M:%S",self._provider.current_time)
+            ]))
         self.window.update(field_values)
 
     def check_updates(self):
         while True:
             # TODO: This timer is pretty janky! Can you provide some kind of signal from your code
             # to update the display?
-            time.sleep(1)
+#            time.sleep(1)
             # When you get an update, refresh the display.
             if self._provider is not None:
                 self.update_display()
